@@ -21,7 +21,7 @@ def __preamble(columns, style):
       td {
 '''
     html += 'width: {0}vw;'.format(100 / columns)
-    html += 'height: {0}vw;'.format(100 / columns)
+    html += 'height: {0}vw;'.format(60 / columns)
 
     html += '''
         text-align: center;
