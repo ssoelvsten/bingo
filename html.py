@@ -1,4 +1,5 @@
-preamble = '''
+def __preamble(columns, style):
+    html =  '''
 <html>
   <head>
     <style>
@@ -40,39 +41,78 @@ preamble = '''
         table {
         }
       }
+    '''
+
+    if style == "xmas":
+        html += '''
+      table {
+        border-color: .0e7445;
+        border-width: 0.2rem;
+
+        margin-bottom: 0;
+      }
+      td {
+        border-color: #0e7445;
+        border-width: 0.2rem;
+        color: #d72026;
+      }
+      div.id {
+        text-align: center;
+        color: #d72026;
+      }
+      img {
+        width: 100%;
+      }
+      img.bot {
+        margin-bottom: 8rem;
+      }
+'''
+
+    html += '''
     </style>
   </head>
-  <body>
-'''
-postamble = '  </body>\n</html>\n'
+<body>
+    '''
+    return html
 
-def __card_to_html(card, n = None):
+def __postamble():
+    return '  </body>\n</html>\n'
+
+def __card_to_html(card, n = None, style = None):
     html = ''
+
     if n is not None:
         html += '<div class="id">{0}</div>'.format(n)
+
+    if style == "xmas":
+        html += '<img class="top" src="./assets/xmas-top.svg" />'
+
     html += '    <table>\n'
     for row in card:
         html += '      <tr>\n'
         html += '\n'.join('        <td>{0}</td>'.format(x) for x in row)
         html += '      </tr>\n'
     html += '    </table>\n'
+
+    if style == "xmas":
+        html += '<img class="bot" src="./assets/xmas-bot.svg" />'
+
     return html
 
-def card_to_html(card, n = None):
+def card_to_html(card, n = None, style = None):
     '''
     Create the HTML for a single Bingo card.
     '''
-    return preamble + __card_to_html(card, n) + postamble
+    return __preamble(style) + __card_to_html(card, n, style) + __postamble()
 
-def cards_to_html(cards):
+def cards_to_html(cards, style = None):
     '''
     Create the HTML for a collection of Bingo cards.
     '''
-    html = preamble
+    html = __preamble(style)
     for i in range(len(cards)):
-        html += __card_to_html(cards[i], i+1)
-        if i % 2 == 1:
-            html += '<div class="break"></div>'
+        html += __card_to_html(cards[i], i+1, style)
+        html += '<div class="break"></div>'
 
-    html += postamble
+    html += __postamble()
     return html

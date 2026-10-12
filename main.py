@@ -21,6 +21,8 @@ parser.add_argument('--rows', metavar='n', type=int, default=3,
                     help='number of rows')
 parser.add_argument('--columns', metavar='n', type=int, default=5,
                     help='number of columns')
+parser.add_argument('--theme', type=str, default=None,
+                    help='theme [XMas] to apply to visual outputs')
 
 args = parser.parse_args()
 
@@ -52,4 +54,4 @@ for i in range(len(cards)):
         file.write(card_to_html(cards[i]))
 
 with open('./out.html', 'w') as file:
-    file.write(cards_to_html(cards))
+    file.write(cards_to_html(cards, args.theme))
