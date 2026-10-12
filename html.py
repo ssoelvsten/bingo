@@ -19,8 +19,11 @@ def __preamble(columns, style):
       tr {
       }
       td {
-        width: 10rem;
-        height: 10rem;
+'''
+    html += 'width: {0}vw;'.format(100 / columns)
+    html += 'height: {0}vw;'.format(100 / columns)
+
+    html += '''
         text-align: center;
 
         padding: 1rem;
@@ -103,13 +106,13 @@ def card_to_html(card, n = None, style = None):
     '''
     Create the HTML for a single Bingo card.
     '''
-    return __preamble(style) + __card_to_html(card, n, style) + __postamble()
+    return __preamble(len(card[0]), style) + __card_to_html(card, n, style) + __postamble()
 
 def cards_to_html(cards, style = None):
     '''
     Create the HTML for a collection of Bingo cards.
     '''
-    html = __preamble(style)
+    html = __preamble(len(cards[0][0]), style)
     for i in range(len(cards)):
         html += __card_to_html(cards[i], i+1, style)
         html += '<div class="break"></div>'
