@@ -6,8 +6,8 @@ entire row and the one to fill out the entire card. Yet, it can happen that the
 same person gets both prices which kind of sours the mood.
 
 So, these scripts generate bingo cards based on a pre-defined history of words
-to be drawn. Using this, we can ensure (1) that no one gains two prices and and
-(2) only one person wins a price every time.
+to be drawn. Using this, we can ensure (1) that no one gains two prices and
+(2) there are no ties for getting any price.
 
 ## Usage
 
