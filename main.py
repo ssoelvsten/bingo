@@ -32,12 +32,13 @@ with open(args.history, 'r') as file:
 ################################################################################
 # Generate bingo cards
 ################################################################################
-cards, winners = gen_cards(history, args.count, args.rows, args.columns)
+cards, winners = gen_cards(history, args.count, args.rows, args.columns, args.min)
 
-print("Generated {0} cards (winners {1})".format(
-    len(cards),
-    ", ".join(str(i+1) for (t,i) in winners))
-)
+print("Generated {0} cards".format(len(cards)))
+
+print("\nWinners:")
+for (t,i) in winners:
+    print("  {0:4d} @ t = {1}".format(i,t))
 
 ################################################################################
 # Write cards to file(s)
