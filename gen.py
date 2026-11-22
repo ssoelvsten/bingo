@@ -1,34 +1,41 @@
 import random
 
-def __gen_card(history, yrotsih, rows, cols):
+def __gen_card(history, yrotsih, rows, cols, min_turns, max_turns):
     '''
     Generate a card of size `rows*cols` with entries from `history` together
     with at what time rows are going to be filled.
     '''
-    entries = [x for x in history]
-    random.shuffle(entries)
-    card = [entries[r*cols:r*cols+cols] for r in range(rows)]
+    while True:
+        entries = [x for x in history]
+        random.shuffle(entries)
+        card = [entries[r*cols:r*cols+cols] for r in range(rows)]
 
-    timings = [max([yrotsih[x] for x in xs]) for xs in card]
-    timings.sort()
+        timings = [max([yrotsih[x] for x in xs]) for xs in card]
+        timings.sort()
 
-    return (card, timings)
+        if (timings[0] < min_turns):
+            continue
+        if (max_turns < timings[-1]):
+            continue
 
-def gen_cards(history, n, rows, cols):
+        return (card, timings)
+
+def gen_cards(history, n, rows, cols, min_turns, max_turns):
     '''
     Generate `n` cards such that only one player wins each individual number of
-    rows and never the same player wins twice.
+    rows and never the same player wins twice; no card wins any rows prior to
+    `min_turns` and all rows must be won prior to `max_turns`.
     '''
     yrotsih = {}
     for i in range(len(history)):
         yrotsih[history[i]] = i
 
-    card, timings = __gen_card(history, yrotsih, rows, cols)
+    card, timings = __gen_card(history, yrotsih, rows, cols, min_turns, max_turns)
     cards = [card]
     winners = [(t, 0) for t in timings]
 
     while True:
-        card, timings = __gen_card(history, yrotsih, rows, cols)
+        card, timings = __gen_card(history, yrotsih, rows, cols, min_turns, max_turns)
 
         shadowings = sum([timings[i] < winners[i][0] for i in range(rows)])
         if shadowings > 1:
